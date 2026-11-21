@@ -20,6 +20,11 @@ from .structure import StructureFinanciere
 POINTS_PAR_AXE = 25.0
 
 
+def _fr(valeur: float) -> str:
+    """Nombre à une décimale, avec la virgule française."""
+    return f"{valeur:.1f}".replace(".", ",")
+
+
 def _echelle(valeur: float | None, zero: float, plein: float) -> float | None:
     """Convertit une valeur en note entre 0 et 1, linéairement entre deux seuils.
 
@@ -197,7 +202,7 @@ def detecter_alertes(
             ajouter(
                 Niveau.ATTENTION,
                 "endettement_eleve",
-                f"Il faudrait {ratios.capacite_remboursement:.1f} années de CAF pour rembourser "
+                f"Il faudrait {_fr(ratios.capacite_remboursement)} années de CAF pour rembourser "
                 "les dettes financières (les banques regardent en général un plafond de 3 à 4 ans).",
             )
     # Si l'EBE est négatif, l'alerte « EBE négatif » suffit
@@ -205,7 +210,7 @@ def detecter_alertes(
         ajouter(
             Niveau.ATTENTION,
             "couverture_interets_faible",
-            f"L'EBE ne couvre que {ratios.couverture_interets:.1f} fois les intérêts d'emprunt.",
+            f"L'EBE ne couvre que {_fr(ratios.couverture_interets)} fois les intérêts d'emprunt.",
         )
 
     # Liquidité
@@ -234,7 +239,7 @@ def detecter_alertes(
         ajouter(
             Niveau.ATTENTION,
             "baisse_activite",
-            f"Le chiffre d'affaires recule de {abs(croissance_ca):.0%} sur un an.",
+            f"Le chiffre d'affaires recule de {abs(croissance_ca) * 100:.0f}\u202f% sur un an.",
         )
 
     ordre = {Niveau.CRITIQUE: 0, Niveau.ATTENTION: 1, Niveau.INFO: 2}

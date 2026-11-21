@@ -6,9 +6,26 @@ Lugdunum lit les comptes annuels d'une entreprise (bilan et compte de résultat)
 les indicateurs qu'utiliserait un analyste financier, attribue un score de santé financière
 sur 100 et signale les points de risque, en citant le cadre légal quand il s'applique.
 
-> 🚧 Projet en cours. Étape 1 terminée : le moteur d'analyse.
+> 🚧 Projet en cours. Étapes 1 et 2 terminées : le moteur d'analyse et l'interface web.
 
-## Exemple
+![Tableau de bord Lugdunum](docs/capture.png)
+
+## L'interface web
+
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app.py
+```
+
+- Score sur 100, note de A à E et détail des quatre axes
+- Indicateurs clés avec leur variation sur un an
+- Alertes classées par gravité
+- Graphiques : chiffre d'affaires et croissance, marges, évolution du score, cascade du chiffre d'affaires au résultat net, fonds de roulement / BFR / trésorerie
+- Tableaux des SIG, des ratios et du bilan fonctionnel sur tous les exercices
+- Import de ses propres comptes au format JSON (un modèle vierge est téléchargeable)
+- Export du diagnostic complet au format Excel
+
+## En ligne de commande
 
 ```bash
 python -m lugdunum donnees/exemples/confluence_negoce.json
@@ -93,11 +110,9 @@ exercices, construites pour illustrer trois profils types :
 Elles sont générées par `scripts/generer_exemples.py`, qui garantit des bilans équilibrés
 et des capitaux propres cohérents d'une année sur l'autre.
 
-## Installation
+## Tests
 
 ```bash
-pip install -r requirements.txt
-python -m lugdunum donnees/exemples/*.json
 python -m pytest
 ```
 
@@ -111,16 +126,19 @@ lugdunum/
 ├── ratios.py       Ratios financiers
 ├── score.py        Score sur 100 et alertes
 ├── diagnostic.py   Orchestration multi-exercices, tableau de synthèse
+├── libelles.py     Libellés et formats d'affichage
+├── export.py       Export Excel
 └── __main__.py     Diagnostic en ligne de commande
+streamlit_app.py    Interface web
 ```
 
 ## Feuille de route
 
 - [x] **Étape 1 : moteur d'analyse** (SIG, bilan fonctionnel, ratios, score, alertes, tests)
-- [ ] **Étape 2 : interface web** (Streamlit) avec graphiques et tableau de bord
+- [x] **Étape 2 : interface web** (Streamlit) avec graphiques, tableau de bord et export Excel
 - [ ] **Étape 3 : données réelles** : récupération des comptes annuels publics à partir du SIREN (données ouvertes de l'INPI)
 - [ ] **Étape 4 : comparaison sectorielle** par code NAF
-- [ ] **Étape 5 : commentaire d'analyste rédigé par IA** et export PDF / Excel
+- [ ] **Étape 5 : commentaire d'analyste rédigé par IA** et export PDF
 - [ ] **Étape 6 : mise en ligne**
 
 ## Avertissement
